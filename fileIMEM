@@ -1,0 +1,37 @@
+module fileIMEM(Address, Instruction, OpCode,A1,A2,Immediate,Function,Destination);
+
+input [7:0] Address;
+
+output [15:0] Instruction;
+output [3:0] OpCode;
+output [2:0] A1;
+output [2:0] A2;
+output reg[2:0] Function;
+output reg[2:0] Destination;
+output logic[5:0] Immediate;
+
+logic [7:0] Instructions[15:0];
+
+initial Instructions[0] = 16'b0000000000011000; 
+initial Instructions[1] = 16'b0000001010001100; 
+initial Instructions[2] = 16'b0000011011001010; 
+initial Instructions[3] = 16'b0000111110111101; 
+initial Instructions[4] = 16'b0000101000011000; 
+initial Instructions[5] = 16'b0000100101100101; 
+initial Instructions[6] = 16'b0000001100010010; 
+initial Instructions[7] = 16'b0000100001100100; 
+
+assign Instruction = Instructions[Address];
+assign OpCode = Instruction[15:12];
+assign A2 = Instruction[8:6];
+assign A1 = Instruction[5:3];
+assign Function = Instruction[2:0];
+assign Immediate = Instruction[5:0];
+always@(Address)
+begin
+Destination <= Instruction[11:9]; 
+end
+
+endmodule
+
+

@@ -1,0 +1,57 @@
+module fileALU(Function,Operand1,Operand2,Immediate,Result);
+
+input logic [7:0]Operand1;
+input logic [7:0]Operand2;
+input [2:0] Function;
+input logic [5:0]Immediate;
+
+output reg [7:0]Result;
+
+integer cin;
+integer cout; 
+
+
+always @(Function or Operand1 or Operand2) 
+begin
+if (Function == 3'b100)
+begin
+for (int i=0; i<8; i = i+1)
+begin
+Result[i] = Operand1[i] && Operand2[i];
+end
+end
+
+else if(Function == 3'b101)
+begin
+for (int i=0; i<8; i = i+1)
+begin
+Result[i] = Operand1[i] || Operand2[i];
+end
+end
+
+else if(Function == 3'b000)
+begin
+Result[0] = Operand1[0]^Operand2[0];
+cin = Operand1[0] & Operand2[0];
+for (int i = 1; i<7; i = i+1)
+begin
+
+Result[i] = (Operand1[i]^Operand2[7])^cin;
+cout = Operand1[i] & Operand2[7];
+end
+Result[7] = (Operand1[7]^Operand2[7])^cin;
+cout = Operand1[7] & Operand2[7];
+end
+
+else if (Function == 3'b010)
+assign cin =0;
+for (int i=0; i<8; i = i+1)
+begin
+
+Result[i] = (Operand1[i]^Operand2[i])^cin;
+cin =  (~Operand1[i]&Operand2[i])|~((Operand1[i] ^ Operand2[i])&cin); //cin->borrow
+end
+end
+endmodule
+
+

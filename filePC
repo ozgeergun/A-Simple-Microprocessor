@@ -1,0 +1,26 @@
+module ProgramCounter(PCNext, Address, Reset, CLK);
+
+input [7:0]  PCNext;
+input  Reset;
+input CLK;
+
+output reg  [7:0]  Address;
+
+initial begin
+Address <= 8'b00000000;
+end
+always @(posedge CLK)
+begin
+if (Reset == 1)
+begin
+Address = 8'b00000000;
+end
+
+else
+begin
+Address = PCNext;		
+end
+end
+endmodule
+
+

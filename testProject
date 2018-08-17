@@ -1,0 +1,52 @@
+module testProject();
+
+logic [7:0]Address;
+logic [15:0]Instruction;
+logic [3:0]OpCode;
+
+logic [2:0]A1;
+logic [2:0]A2;
+
+logic CLK;
+reg[2:0] Function;
+reg[7:0]Operand1;
+reg[7:0]Operand2;
+logic[7:0] Result;
+logic[2:0] Destination;
+reg[5:0] Immediate;
+
+/*logic [7:0] PCNext;
+logic Reset;
+
+filePC(PCNext, Address, Reset, CLK);*/
+fileIMEM dut0(Address,Instruction,OpCode,A1,A2,Immediate,Function,Destination);
+fileMemory dut1(CLK,A1,A2,Destination,Operand1,Operand2);
+fileALU dut2(Function,Operand1,Operand2,Immediate,Result);
+
+initial begin
+
+CLK = 0;  Address = 8'b00000001; #0;
+CLK = 1;  Address = 8'b00000000; #0; 
+CLK = 0;  Address = 8'b00000001; #0;
+CLK = 1;  Address = 8'b00000001; #0; 
+CLK = 0;  Address = 8'b00000000; #5;
+CLK = 1;  Address = 8'b00000010; #20; 
+CLK = 0;  Address = 8'b00000000; #5;
+CLK = 1;  Address = 8'b00000011; #20; 
+CLK = 0;  Address = 8'b00000000; #5;
+CLK = 1;  Address = 8'b00000100; #20; 
+CLK = 0;  Address = 8'b00000000; #5;
+CLK = 1;  Address = 8'b00000101; #20; 
+CLK = 0;  Address = 8'b00000000; #5;
+CLK = 1;  Address = 8'b00000110; #20; 
+CLK = 0;  Address = 8'b00000000; #5;
+CLK = 1;  Address = 8'b00000111; #20; 
+CLK = 0;  Address = 8'b00000001; #5;
+CLK = 1;  Address = 8'b00000000; #20;
+CLK = 0;  Address = 8'b00000000; #5;
+CLK = 0;  Address = 8'b00000001; #5;
+CLK = 1;  Address = 8'b00000001; #20;
+ 
+
+end
+endmodule
